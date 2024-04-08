@@ -11,12 +11,10 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CartController extends AbstractController
 {
-    #[Route('/cart', name: 'app_cart')]
+    #[Route('/api/cart', name: 'app_cart')]
     public function index(CartService $cartService): Response
     {
-        return $this->render('cart/index.html.twig', [
-            'cart' => $cartService->getCart(),
-        ]);
+        return $this->json($cartService->getCart(), 200, [], ['groups' => ['cart:read']]);
     }
 
     #[Route('/cart/add/{id}/{quantity}', name: 'app_cart_add')]
@@ -27,7 +25,7 @@ class CartController extends AbstractController
         $route = $request->attributes->get('_route');
         $cartService->addToCart($product, $quantity);
         if ($route == 'api_cart_add') {
-            return $this->json($cartService->getCart(), 200);
+            return $this->json($cartService->getCart(), 200, [], ['groups' => ['cart:read']]);
         }
         return $this->redirectToRoute('app_product');
     }
