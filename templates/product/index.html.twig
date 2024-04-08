@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProductController!{% endblock %}
+
+{% block body %}
+    {% for product in products %}
+        <p>{{ product.name }}</p>
+        <a href="{{ path('app_cart_add', {id:product.id, quantity:1}) }}">Add to cart</a>
+    {% endfor %}
+
+    <a href="{{ path('app_cart') }}">go to cart</a>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CartController!{% endblock %}
+
+{% block body %}
+    {% for item in cart %}
+        <div>
+            <p> {{ item.product.name }}</p>
+            <p>{{ item.quantity }}</p>
+            <a href="{{ path('app_cart_removeone', {id: item.product.id}) }}">-</a>
+            <a href="{{ path('app_cart_removerow', {id: item.product.id}) }}">x</a>
+        </div>
+    {% endfor %}
+    <a href="{{ path('app_cart_emptycart') }}">empty my cart</a>
+    <a href="{{ path('app_product') }}">go to product</a>
+
+{% endblock %}
+
