@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ImageController!{% endblock %}
+
+{% block body %}
+{{ form_start(form, {'action': path('app_image_create', {id:product.id}), 'method': 'POST'}) }}
+    {{ form_widget(form.imageFile) }}
+    <button type="submit">submit</button>
+    {{ form_end(form) }}
+{% endblock %}

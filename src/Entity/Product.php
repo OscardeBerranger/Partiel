@@ -31,6 +31,9 @@ class Product
     #[ORM\OneToMany(targetEntity: OrderItem::class, mappedBy: 'product', orphanRemoval: true)]
     private Collection $orderItems;
 
+    #[ORM\OneToOne(inversedBy: 'product', cascade: ['persist', 'remove'])]
+    private ?Image $image = null;
+
 
 
     public function __construct()
@@ -93,6 +96,18 @@ class Product
                 $orderItem->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Image $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }

@@ -37,4 +37,10 @@ class ProductController extends AbstractController
             'form' => $form,
         ]);
     }
+    #[Route('/product/temp/{id}', name: 'app_product_temp')]
+    public function temp(Product $product){
+        return $this->render('product/temp.html.twig', [
+            "product" => $product,
+        ]);
+    }
 }
