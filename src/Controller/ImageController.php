@@ -13,13 +13,16 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ImageController extends AbstractController
 {
-    #[Route('/image/{id}', name: 'app_image')]
+    #[Route('/admin/image/{id}', name: 'app_image')]
     public function index(Product $product): Response
     {
         $image = new Image();
         $form = $this->createForm(ImageType::class, $image);
 
-        return $this->render('image/index.html.twig', ['product'=>$product, 'form' => $form->createView()]);
+        return $this->render('image/index.html.twig', [
+            'form' => $form->createView(),
+            'product' => $product
+        ]);
     }
 
     #[Route('/image/create/{id}', name: 'app_image_create')]
@@ -34,6 +37,6 @@ class ImageController extends AbstractController
             $manager->flush();
         }
 
-        return $this->redirectToRoute('app_image', ['id'=>$product->getId()]);
+        return $this->redirectToRoute('app_image', ['id' => $product->getId()]);
     }
 }

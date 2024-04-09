@@ -5,7 +5,9 @@
 {% block body %}
         <p>{{ product.name }}</p>
         <a href="{{ path('app_cart_add', {id:product.id, quantity:1}) }}">Add to cart</a>
-        <img src="{{ vich_uploader_asset(product.image, 'imageFile') }}" alt="{{ product.name }}.png">
-
+    {% if product.image %}
+        <img src="{{ vich_uploader_asset(product.image, 'imageFile') }}" alt="{{ product.name }}.png" width="200px" height="200px">
+    {% endif %}
+    <a href="{{ path('app_product_delete', {id:product.id}) }}">remove</a>
     <a href="{{ path('app_cart') }}">go to cart</a>
 {% endblock %}

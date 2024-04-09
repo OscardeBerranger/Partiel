@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class OrderController extends AbstractController
 {
 
-    #[Route('/order/make', name: 'app_order_makeorder')]
+    #[Route('/api/order/make', name: 'app_order_makeorder')]
     public function makeOrder(CartService $cartService, EntityManagerInterface $manager): Response{
         $order = new Order();
         $order->setOfUser($this->getUser());

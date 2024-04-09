@@ -34,6 +34,9 @@ class Product
     #[ORM\OneToOne(inversedBy: 'product', cascade: ['persist', 'remove'])]
     private ?Image $image = null;
 
+    #[ORM\Column(length: 2000, nullable: true)]
+    private ?string $QrCode = null;
+
 
 
     public function __construct()
@@ -108,6 +111,18 @@ class Product
     public function setImage(?Image $image): static
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getQrCode(): ?string
+    {
+        return $this->QrCode;
+    }
+
+    public function setQrCode(?string $QrCode): static
+    {
+        $this->QrCode = $QrCode;
 
         return $this;
     }

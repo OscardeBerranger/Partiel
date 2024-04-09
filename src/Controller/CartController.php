@@ -51,7 +51,8 @@ class CartController extends AbstractController
 
     #[Route('/cart/removerow/{id}', name: 'app_cart_removerow')]
     #[Route('/api/cart/removerow/{id}', name: 'api_cart_removerow')]
-    public function removeRow(CartService $cartService, Product $product){
+    public function removeRow(CartService $cartService, Product $product): \Symfony\Component\HttpFoundation\RedirectResponse
+    {
         $cartService->removeRow($product);
         return $this->redirectToRoute('app_cart');
     }
