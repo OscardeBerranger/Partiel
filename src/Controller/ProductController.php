@@ -55,9 +55,9 @@ class ProductController extends AbstractController
     }
 
     #[Route('/product/getQrCode/{id}', name: 'app_product_getQrCode')]
-    public function getProductQrCode(Product $product, QRCodeService $service): Response
+    public function getProductQrCode(Product $product, QRCodeService $service, Request $request): Response
     {
-        $qr = $service->createQrCode("http://localhsost:8000/api/cart/add/1/1".$product->getId());
+        $qr = $service->createQrCode("http://localhost:8000/api/cart/add/".$product->getId()."/1");
         $product->setQrCode($qr);
         return $this->render('product/qrCode.html.twig', [
             "simple" => $qr,
