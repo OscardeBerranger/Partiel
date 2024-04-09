@@ -8,6 +8,8 @@ use App\Repository\ProductRepository;
 use App\Service\CartService;
 use App\Service\QRCodeService;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -56,9 +58,22 @@ class ProductController extends AbstractController
     public function getProductQrCode(Product $product, QRCodeService $service): Response
     {
         $qr = $service->createQrCode("http://localhsost:8000/api/cart/add/1/1".$product->getId());
+        $product->setQrCode($qr);
         return $this->render('product/qrCode.html.twig', [
             "simple" => $qr,
         ]);
+    }
+
+    #[Route('/product/getQrCodeAsPdf/{id}', name: 'app_product_getQrCode_asPdf')]
+    public function getProductQrCodeAsPdf(Product $product, Pdf $pdf, QRCodeService $service): Response
+    {
+        $qrcode =  $this->renderView('product/qrCode.html.twig', [
+            "simple" => $product->getQrCode(),
+        ]);
+        return new PdfResponse(
+            $pdf->getOutputFromHtml($qrcode),
+            $product->getName().".pdf"
+        );
     }
 
 }
