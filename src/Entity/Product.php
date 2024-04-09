@@ -14,15 +14,15 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['cart:read'])]
+    #[Groups(['cart:read', 'order_item:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['cart:read'])]
+    #[Groups(['cart:read', 'order_item:read'])]
     private ?string $name = null;
 
     #[ORM\Column]
-    #[Groups(['cart:read'])]
+    #[Groups(['cart:read', 'order_item:read'])]
     private ?int $price = null;
 
     /**

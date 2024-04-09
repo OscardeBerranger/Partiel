@@ -17,11 +17,9 @@ use Symfony\Component\Serializer\SerializerInterface;
 class ProductController extends AbstractController
 {
     #[Route('/product', name: 'app_product')]
-    public function index(ProductRepository $repository): Response
+    public function index(ProductRepository $productRepository): Response
     {
-        return $this->render('product/index.html.twig', [
-            'products'=>$repository->findAll()
-        ]);
+        return $this->json($productRepository->findAll(), Response::HTTP_OK, [], ['groups' => ['cart:read']]);
     }
 
     #[Route('/product/create', name: 'app_product_create')]

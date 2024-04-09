@@ -46,7 +46,6 @@ class CartController extends AbstractController
     #[\Symfony\Component\Routing\Annotation\Route('/api/cart/removeOne/{id}', name:'api_cart_removeone')]
     public function removeOne(CartService $cartService, Product $product): Response{
         $cartService->removeProduct($product);
-
         return $this->redirectToRoute('app_cart');
     }
 

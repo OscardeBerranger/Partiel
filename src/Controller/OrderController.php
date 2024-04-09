@@ -32,5 +32,13 @@ class OrderController extends AbstractController
     }
 
 
-    public function payOrder(){}
+    #[Route('/pay/order/{id}', name: 'app_order_pay')]
+    public function payOrder(Order $order, EntityManagerInterface $manager): Response
+    {
+        $order->setStatus(0);
+        $manager->persist($order);
+        $manager->flush();
+        return $this->json("now you're poor haha", Response::HTTP_OK);
+    }
+
 }

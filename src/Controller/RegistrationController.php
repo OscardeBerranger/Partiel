@@ -16,33 +16,21 @@ use Symfony\Component\Serializer\SerializerInterface;
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, SerializerInterface $serializer): Response
+    public function register(Request $request, UserPasswordHasherInterface $hasher, EntityManagerInterface $entityManager, SerializerInterface $serializer): Response
     {
+        $tmp = $serializer->deserialize($request->getContent(), User::class, 'json');
+
         $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
-        $form->handleRequest($request);
+        $user->setEmail($tmp->getEmail());
 
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $profile = new Profile();
-            // encode the plain password
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
-
-            $user->setProfile($profile);
-            $entityManager->persist($user);
-            $entityManager->flush();
-            // do anything else you need here, like send an email
-
-            return $this->redirectToRoute('app_product');
-        }
-
-        return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
-        ]);
+        $user->setPassword(
+            $hasher->hashPassword(
+                $user,
+                $tmp->getPassword()
+            )
+        );
+        $entityManager->persist($user);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_product');
     }
 }
