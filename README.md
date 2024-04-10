@@ -1,0 +1,1 @@
+https://partielApi.oscadeberranger.com
